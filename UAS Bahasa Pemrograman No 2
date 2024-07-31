@@ -1,0 +1,82 @@
+def luas_segiempat(sisi):
+    return sisi ** 2
+
+def keliling_segiempat(sisi):
+    return 4 * sisi
+
+def luas_persegi_panjang(panjang, lebar):
+    return panjang * lebar
+
+def keliling_persegi_panjang(panjang, lebar):
+    return 2 * (panjang + lebar)
+
+def luas_segitiga(alas, tinggi):
+    return (alas * tinggi) / 2
+
+def keliling_segitiga(sisi1, sisi2, sisi3):
+    return sisi1 + sisi2 + sisi3
+
+Phi = 3.14
+
+def luas_lingkaran(jari_jari):
+    return Phi * jari_jari ** 2
+
+def keliling_lingkaran(jari_jari):
+    return 2 * Phi * jari_jari
+
+def menu():
+    print("Pilih jenis bangun datar:")
+    print("1. Segiempat")
+    print("2. Persegi Panjang")
+    print("3. Segitiga")
+    print("4. Lingkaran")
+    pilihan = int(input("Masukkan pilihan Anda (1-4): "))
+    return pilihan
+
+def menu_hitung():
+    print("Pilih jenis perhitungan:")
+    print("a. Luas")
+    print("b. Keliling")
+    pilihan = input("Masukkan pilihan Anda (a/b): ").lower()
+    return pilihan
+
+def main():
+    while True:
+        pilihan_bangun = menu()
+        if pilihan_bangun == 1:
+            sisi = float(input("Masukkan panjang sisi segiempat: "))
+            if menu_hitung() == 'a':
+                print(f"Luas Segiempat: {luas_segiempat(sisi)}")
+            else:
+                print(f"Keliling Segiempat: {keliling_segiempat(sisi)}")
+        elif pilihan_bangun == 2:
+            panjang = float(input("Masukkan panjang persegi panjang: "))
+            lebar = float(input("Masukkan lebar persegi panjang: "))
+            if menu_hitung() == 'a':
+                print(f"Luas Persegi Panjang: {luas_persegi_panjang(panjang, lebar)}")
+            else:
+                print(f"Keliling Persegi Panjang: {keliling_persegi_panjang(panjang, lebar)}")
+        elif pilihan_bangun == 3:
+            alas = float(input("Masukkan panjang alas segitiga: "))
+            tinggi = float(input("Masukkan tinggi segitiga: "))
+            if menu_hitung() == 'a':
+                print(f"Luas Segitiga: {luas_segitiga(alas, tinggi)}")
+            else:
+                sisi1 = float(input("Masukkan panjang sisi pertama segitiga: "))
+                sisi2 = float(input("Masukkan panjang sisi kedua segitiga: "))
+                sisi3 = float(input("Masukkan panjang sisi ketiga segitiga: "))
+                print(f"Keliling Segitiga: {keliling_segitiga(sisi1, sisi2, sisi3)}")
+        elif pilihan_bangun == 4:
+            jari_jari = float(input("Masukkan panjang jari-jari lingkaran: "))
+            if menu_hitung() == 'a':
+                print(f"Luas Lingkaran: {luas_lingkaran(jari_jari)}")
+            else:
+                print(f"Keliling Lingkaran: {keliling_lingkaran(jari_jari)}")
+        else:
+            print("Pilihan tidak valid.")
+        
+        lanjut = input("Apakah Anda ingin melanjutkan program? (Y/N): ").lower()
+        if lanjut != 'y':
+            break
+
+main()
