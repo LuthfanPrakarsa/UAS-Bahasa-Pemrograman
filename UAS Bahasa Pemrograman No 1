@@ -1,0 +1,101 @@
+import tkinter as tk
+from tkinter import messagebox
+
+kamar = {
+    'M': ('Melati', 650000),
+    'S': ('Sakura', 550000),
+    'L': ('Lily', 400000),
+    'A': ('Anggrek', 350000)
+}
+
+def hitung_pembayaran():
+    try:
+        name = entry_name.get()
+        customer = entry_customer.get()
+        check_in_date = entry_date.get()
+        kode_kamar = entry_code.get().upper()
+        sewa_per_malam = int(entry_days.get())
+        total_bayar = int(entry_paid.get())
+        
+        if kode_kamar not in kamar:
+            raise ValueError("Kode Kamar Invalid.")
+        
+        nama_kamar, harga_per_malam = kamar[kode_kamar]
+        total_bayar = harga_per_malam * sewa_per_malam
+        
+        if sewa_per_malam > 5:
+            diskon = 0.1
+        elif sewa_per_malam > 3:
+            diskon = 0.05
+        else:
+            diskon = 0
+            
+        jumlah_diskon = total_bayar * diskon
+        total_bayar -= jumlah_diskon
+        
+        ppn = 0.1 * total_bayar
+        final_payment = total_bayar + ppn
+        kembalian = total_bayar - final_payment
+        
+        
+        teks_hasil = (
+            f"\t\tBukti Pemesanan Kamar\n"
+            f"\t\tHotel \"SEJUK ASRI\"\n"
+            f"===============================================\n"
+            f"Nama Petugas: {name}\t\t\tNama Customer: {customer}\n"
+            f"\t\t\tTanggal Check in: {check_in_date}\n"
+            f"===============================================\n"
+            f"Nama Kamar yang di pesan: {nama_kamar}\n"
+            f"Harga sewa permalam: Rp. {harga_per_malam:,}\n"
+            f"Lama sewa: {sewa_per_malam} hari\n"
+            f"Diskon: {diskon * 100}%\n"
+            f"PPN 10%: Rp. {ppn:,}\n"
+            f"Jumlah Bayar: Rp. {total_bayar:,}\n"
+            f"Total Bayar: Rp. {final_payment:,}\n"
+            f"Uang Bayar: Rp. {total_bayar:,}\n"
+            f"Uang Kembali: Rp. {kembalian:,}"
+        )
+        
+        text_output.config(state=tk.NORMAL)
+        text_output.delete(1.0, tk.END)
+        text_output.insert(tk.END, teks_hasil)
+        text_output.config(state=tk.DISABLED)
+        
+    except ValueError as e:
+        messagebox.showerror("Error", str(e))
+        
+window = tk.Tk()
+window.title("Hotel SEJUK ASRI Sistem Pembayaran")
+
+
+tk.Label(window, text="Hotel \"SEJUK ASRI\"\n====================").grid(row=0, columnspan=2, pady=10)
+tk.Label(window, text="Input Nama Petugas:").grid(row=1, column=0, padx=10, pady=5, sticky='e')
+entry_name = tk.Entry(window)
+entry_name.grid(row=1, column=1, padx=10, pady=5)
+
+tk.Label(window, text="Input Nama Customer:").grid(row=2, column=0, padx=10, pady=5, sticky='e')
+entry_customer = tk.Entry(window)
+entry_customer.grid(row=2, column=1, padx=10, pady=5)
+
+tk.Label(window, text="Input tanggal check in:").grid(row=3, column=0, padx=10, pady=6, sticky='e')
+entry_date = tk.Entry(window)
+entry_date.grid(row=3, column=1, padx=10, pady=5)
+
+tk.Label(window, text="Pilih Kode Kamar[M/S/L/A]:").grid(row=4, column=0, padx=10, pady=6, sticky='e')
+entry_code = tk.Entry(window)
+entry_code.grid(row=4, column=1, padx=10, pady=5)
+
+tk.Label(window, text="Input Lama Sewa (Hari):").grid(row=5, column=0, padx=10, pady=6, sticky='e')
+entry_days = tk.Entry(window)
+entry_days.grid(row=5, column=1, padx=10, pady=5)
+
+tk.Label(window, text="Uang Dibayar:").grid(row=6, column=0, padx=10, pady=6, sticky='e')
+entry_paid = tk.Entry(window)
+entry_paid.grid(row=6, column=1, padx=10, pady=5)
+
+tk.Button(window, text="Lanjutkan Transaksi", command=hitung_pembayaran, bg='#4682b4', fg='#ffffff').grid(row=7, columnspan=2, pady=10)
+
+text_output = tk.Text(window, height=15, width=50, state=tk.DISABLED)
+text_output.grid(row=8, columnspan=2, pady=10)
+
+window.mainloop()
